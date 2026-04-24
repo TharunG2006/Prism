@@ -27,7 +27,7 @@ const allowedOrigins = [
   'capacitor://localhost',
   'http://localhost',
   process.env.FRONTEND_URL
-].filter(Boolean);
+].filter(Boolean).map(o => o.replace(/\/$/, "")); // Remove trailing slash if users accidentally add it
 
 const io = socketio(server, {
   cors: {
@@ -41,7 +41,21 @@ app.set('socketio', io);
 
 // Middleware
 app.use(express.json());
-app.use(cors({ origin: allowedOrigins.length > 0 ? allowedOrigins : '*' }));
+app.use(cors({ 
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl) 
+    // or if the origin is in our allowed list
+    if (!origin || allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.length === 0) {
+      callback(null, true);
+    } else {
+      console.log("CORS Blocked for origin:", origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']
+}));
 app.use(helmet());
 app.use(morgan('dev'));
 
@@ -68,7 +82,6 @@ app.use('/api/users', userRoutes);
 app.use('/api/conversations', conversationRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/groups', require('./routes/groups'));
-app.use('/api/vault', require('./routes/vault'));
 app.use('/api/vault', require('./routes/vault'));
 
 // Database Meta
