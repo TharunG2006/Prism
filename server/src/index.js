@@ -26,8 +26,10 @@ const allowedOrigins = [
   'http://localhost:3000',
   'capacitor://localhost',
   'http://localhost',
+  'https://prism-wood.vercel.app',
+  'https://prism-woad.vercel.app',
   process.env.FRONTEND_URL
-].filter(Boolean).map(o => o.replace(/\/$/, "")); // Remove trailing slash if users accidentally add it
+].filter(Boolean).map(o => o.replace(/\/$/, "")); 
 
 const io = socketio(server, {
   cors: {
