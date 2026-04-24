@@ -1,8 +1,31 @@
-import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowLeft, Mail, MessageSquare, Globe, Github, Send } from 'lucide-react'
+import { ArrowLeft, Mail, MessageSquare, Globe, Github, Send, CheckCircle } from 'lucide-react'
 
 export default function Contact() {
+  const [subject, setSubject] = useState('')
+  const [message, setMessage] = useState('')
+  const [isSending, setIsSending] = useState(false)
+  const [isSent, setIsSent] = useState(false)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (!subject || !message) return
+    
+    setIsSending(true)
+    
+    // Simulate API call
+    setTimeout(() => {
+      setIsSending(false)
+      setIsSent(true)
+      setSubject('')
+      setMessage('')
+      
+      setTimeout(() => setIsSent(false), 5000)
+    }, 1500)
+  }
+
   return (
     <div className="min-h-screen bg-[#020617] text-slate-300 p-6 md:p-12 relative overflow-hidden">
       <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[60%] bg-blue-600/5 rounded-full blur-[120px]"></div>
@@ -50,19 +73,51 @@ export default function Contact() {
             className="prism-glass p-8 md:p-12"
           >
              <h2 className="text-xl font-black text-white mb-6 uppercase tracking-tight">Direct Message.</h2>
-             <div className="space-y-4">
+             <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Subject</label>
-                  <input className="prism-input w-full" placeholder="Security Inquiry" />
+                  <input 
+                    className="prism-input w-full" 
+                    placeholder="Security Inquiry"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    required
+                  />
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Message</label>
-                  <textarea className="prism-input w-full min-h-[120px] py-4" placeholder="Describe your issue..."></textarea>
+                  <textarea 
+                    className="prism-input w-full min-h-[120px] py-4" 
+                    placeholder="Describe your issue..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    required
+                  ></textarea>
                 </div>
-                <button className="prism-button w-full flex items-center justify-center gap-2 group">
-                  Send Pulse <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </button>
-             </div>
+                
+                <AnimatePresence mode="wait">
+                  {isSent ? (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 p-4 rounded-xl flex items-center gap-3 text-sm font-bold"
+                    >
+                      <CheckCircle size={20} /> Message Sent Successfully!
+                    </motion.div>
+                  ) : (
+                    <button 
+                      type="submit" 
+                      disabled={isSending}
+                      className="prism-button w-full flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isSending ? 'Transmitting...' : (
+                        <>Send Pulse <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /></>
+                      )}
+                    </button>
+                  )}
+                </AnimatePresence>
+             </form>
           </motion.div>
         </div>
       </div>
