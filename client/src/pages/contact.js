@@ -32,7 +32,7 @@ export default function Contact() {
                 </div>
               </a>
 
-              <div className="flex items-center gap-4 p-4 rounded-xl border border-white/5 hover:bg-white/5 transition-colors group">
+              <a href="https://github.com/TharunG2006/Prism" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-xl border border-white/5 hover:bg-white/5 transition-colors group">
                 <div className="bg-blue-600/20 p-2 rounded-lg group-hover:bg-blue-600 transition-colors">
                   <Github className="text-blue-400 group-hover:text-white" size={20} />
                 </div>
@@ -40,7 +40,7 @@ export default function Contact() {
                   <div className="text-xs font-bold uppercase tracking-widest text-slate-500">GitHub Repo</div>
                   <div className="text-white font-medium">TharunG2006/Prism</div>
                 </div>
-              </div>
+              </a>
             </div>
           </motion.div>
 
