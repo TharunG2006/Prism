@@ -22,13 +22,13 @@ export default function Contact() {
             <p className="text-slate-400 mb-8">Need support or want to report a vulnerability? Our secure channels are open.</p>
 
             <div className="space-y-6">
-              <a href="mailto:support@prism.chat" className="flex items-center gap-4 p-4 rounded-xl border border-white/5 hover:bg-white/5 transition-colors group">
+              <a href="mailto:24104039@nec.edu.in" className="flex items-center gap-4 p-4 rounded-xl border border-white/5 hover:bg-white/5 transition-colors group">
                 <div className="bg-indigo-600/20 p-2 rounded-lg group-hover:bg-indigo-600 transition-colors">
                   <Mail className="text-indigo-400 group-hover:text-white" size={20} />
                 </div>
                 <div>
                   <div className="text-xs font-bold uppercase tracking-widest text-slate-500">Email Support</div>
-                  <div className="text-white font-medium">support@prism.chat</div>
+                  <div className="text-white font-medium">24104039@nec.edu.in</div>
                 </div>
               </a>
 
