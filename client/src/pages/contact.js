@@ -1,43 +1,8 @@
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
-import axios from 'axios'
-import { ArrowLeft, Mail, MessageSquare, Globe, Github, Send, CheckCircle } from 'lucide-react'
+import { ArrowLeft, Mail, Github } from 'lucide-react'
 
 export default function Contact() {
-  const [email, setEmail] = useState('')
-  const [subject, setSubject] = useState('')
-  const [message, setMessage] = useState('')
-  const [isSending, setIsSending] = useState(false)
-  const [isSent, setIsSent] = useState(false)
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (!email || !subject || !message) return
-    
-    setIsSending(true)
-    
-    try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/contact`, {
-        email,
-        subject,
-        message
-      })
-      
-      setIsSent(true)
-      setEmail('')
-      setSubject('')
-      setMessage('')
-      
-      setTimeout(() => setIsSent(false), 5000)
-    } catch (err) {
-      console.error('Failed to send message:', err)
-      alert('Failed to transmit pulse. Please check your connection.')
-    } finally {
-      setIsSending(false)
-    }
-  }
-
   return (
     <div className="min-h-screen bg-[#020617] text-slate-300 p-6 md:p-12 relative overflow-hidden">
       <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[60%] bg-blue-600/5 rounded-full blur-[120px]"></div>
@@ -47,14 +12,14 @@ export default function Contact() {
           <ArrowLeft size={16} /> Back to Login
         </Link>
 
-        <div className="grid md:grid-cols-2 gap-8 items-start">
+        <div className="flex justify-center">
           <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="prism-glass p-8 md:p-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="prism-glass p-8 md:p-12 max-w-lg w-full"
           >
-            <h1 className="text-4xl font-black text-white tracking-tight mb-4">Get in Touch.</h1>
-            <p className="text-slate-400 mb-8">Need support or want to report a vulnerability? Our secure channels are open.</p>
+            <h1 className="text-4xl font-black text-white tracking-tight mb-4 text-center">Get in Touch.</h1>
+            <p className="text-slate-400 mb-8 text-center">Our secure channels are open for support or vulnerability reporting.</p>
 
             <div className="space-y-6">
               <a href="mailto:24104039@nec.edu.in" className="flex items-center gap-4 p-4 rounded-xl border border-white/5 hover:bg-white/5 transition-colors group">
@@ -77,70 +42,6 @@ export default function Contact() {
                 </div>
               </a>
             </div>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="prism-glass p-8 md:p-12"
-          >
-             <h2 className="text-xl font-black text-white mb-6 uppercase tracking-tight">Direct Message.</h2>
-             <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Your Email</label>
-                  <input 
-                    type="email"
-                    className="prism-input w-full" 
-                    placeholder="satoshi@bitcoin.org"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Subject</label>
-                  <input 
-                    className="prism-input w-full" 
-                    placeholder="Security Inquiry"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Message</label>
-                  <textarea 
-                    className="prism-input w-full min-h-[120px] py-4" 
-                    placeholder="Describe your issue..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    required
-                  ></textarea>
-                </div>
-                
-                <AnimatePresence mode="wait">
-                  {isSent ? (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 p-4 rounded-xl flex items-center gap-3 text-sm font-bold"
-                    >
-                      <CheckCircle size={20} /> Message Sent Successfully!
-                    </motion.div>
-                  ) : (
-                    <button 
-                      type="submit" 
-                      disabled={isSending}
-                      className="prism-button w-full flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {isSending ? 'Transmitting...' : (
-                        <>Send Pulse <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /></>
-                      )}
-                    </button>
-                  )}
-                </AnimatePresence>
-             </form>
           </motion.div>
         </div>
       </div>
