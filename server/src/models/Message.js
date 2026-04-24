@@ -2,14 +2,15 @@ const mongoose = require('mongoose');
 
 const messageSchema = new mongoose.Schema({
   conversationId: {
-    type: String, // String for now to match current logic, or ObjectId if we refactor more
+    type: String, 
     required: true,
     index: true,
   },
   senderId: {
-    type: String, // Matching username for now as per current logic
+    type: String, 
     required: true,
   },
+  recipientId: String, // Used for DM metadata tracking
   encryptedContent: String,
   encryptedKey: String,
   senderEncryptedKey: String,
@@ -19,7 +20,6 @@ const messageSchema = new mongoose.Schema({
     type: String,
     sparse: true,
   },
-  // File sharing fields
   fileName: String,
   fileUrl: String,
   fileSize: Number,
@@ -29,7 +29,6 @@ const messageSchema = new mongoose.Schema({
     enum: ['text', 'image', 'file'],
     default: 'text',
   },
-  // Multi-cast group encryption
   groupKeys: [{
     userId: String,
     encryptedKey: String
@@ -51,9 +50,7 @@ const messageSchema = new mongoose.Schema({
   timestamps: true,
 });
 
-const Message = mongoose.model('Message', messageSchema);
-
-// Conversation Meta schema to track recent chats (replacing SK logic in Dynamo)
+// DM Metadata tracking schema
 const conversationMetaSchema = new mongoose.Schema({
   userId: { type: String, required: true, index: true },
   partnerId: { type: String, required: true },
@@ -62,63 +59,56 @@ const conversationMetaSchema = new mongoose.Schema({
 
 const ConversationMeta = mongoose.model('ConversationMeta', conversationMetaSchema);
 
-const messageModel = {
-  create: async (msgData) => {
-    const message = await Message.create(msgData);
-    
-    // Update/Create Conversation Metadata for both participants
-    // Use senderId as-is (original case) to match User.findByUsername
-    const senderId = msgData.senderId;
-    // Determine the partner from the conversationId
-    const parts = msgData.conversationId.split('_');
-    // We need original-cased partner. Since conversationId is lowercased,
-    // we can't rely on it. Store both directions using senderId and derive partner.
-    // The partnerId must be passed explicitly in msgData.
-    const recipientId = msgData.recipientId;
+// MIDDLEWARE: Automatically update DM metadata when a message is saved
+messageSchema.post('save', async function(doc) {
+  const senderId = doc.senderId;
+  const recipientId = doc.recipientId;
 
-    if (senderId && recipientId) {
+  // Only track for DMs (where recipientId is present)
+  if (senderId && recipientId) {
+    try {
       await Promise.all([
         ConversationMeta.findOneAndUpdate(
           { userId: senderId, partnerId: recipientId },
           { lastTimestamp: new Date() },
-          { upsert: true, returnDocument: 'after' }
+          { upsert: true }
         ),
         ConversationMeta.findOneAndUpdate(
           { userId: recipientId, partnerId: senderId },
           { lastTimestamp: new Date() },
-          { upsert: true, returnDocument: 'after' }
+          { upsert: true }
         )
       ]);
+    } catch (err) {
+      console.error('[META_SYNC] Failed to update DM metadata:', err.message);
     }
-
-    return message;
-  },
-
-  getRecentConversations: async (userId) => {
-    return await ConversationMeta.find({ 
-      userId: { $regex: new RegExp(`^${userId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') }
-    }).sort({ lastTimestamp: -1 });
-  },
-
-  getByConversation: async (conversationId, limit = 50, userId = null) => {
-    const query = { conversationId };
-    if (userId) {
-      query.deletedFor = { $ne: userId.toLowerCase() };
-    }
-    return await Message.find(query)
-      .sort({ timestamp: -1 })
-      .limit(limit);
-  },
-
-  deleteByConversation: async (conversationId, userId) => {
-    if (!userId) return;
-    
-    // Find messages in conversation that don't already have user in deletedFor
-    await Message.updateMany(
-      { conversationId },
-      { $addToSet: { deletedFor: userId.toLowerCase() } }
-    );
   }
+});
+
+// STATICS
+messageSchema.statics.getRecentConversations = async function(userId) {
+  return await ConversationMeta.find({ 
+    userId: { $regex: new RegExp(`^${userId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') }
+  }).sort({ lastTimestamp: -1 });
 };
 
-module.exports = messageModel;
+messageSchema.statics.getByConversation = async function(conversationId, limit = 50, userId = null) {
+  const query = { conversationId };
+  if (userId) {
+    query.deletedFor = { $ne: userId.toLowerCase() };
+  }
+  return await this.find(query)
+    .sort({ timestamp: -1 })
+    .limit(limit);
+};
+
+messageSchema.statics.deleteByConversation = async function(conversationId, userId) {
+  if (!userId) return;
+  await this.updateMany(
+    { conversationId },
+    { $addToSet: { deletedFor: userId.toLowerCase() } }
+  );
+};
+
+const Message = mongoose.model('Message', messageSchema);
+module.exports = Message;
