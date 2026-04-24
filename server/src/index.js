@@ -69,6 +69,7 @@ app.use('/api/conversations', conversationRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/groups', require('./routes/groups'));
 app.use('/api/vault', require('./routes/vault'));
+app.use('/api/contact', require('./routes/contact'));
 
 // Database Meta
 console.log('MongoDB & Cloudinary Services Active');

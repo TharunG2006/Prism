@@ -1,29 +1,41 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
+import axios from 'axios'
 import { ArrowLeft, Mail, MessageSquare, Globe, Github, Send, CheckCircle } from 'lucide-react'
 
 export default function Contact() {
+  const [email, setEmail] = useState('')
   const [subject, setSubject] = useState('')
   const [message, setMessage] = useState('')
   const [isSending, setIsSending] = useState(false)
   const [isSent, setIsSent] = useState(false)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!subject || !message) return
+    if (!email || !subject || !message) return
     
     setIsSending(true)
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsSending(false)
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/contact`, {
+        email,
+        subject,
+        message
+      })
+      
       setIsSent(true)
+      setEmail('')
       setSubject('')
       setMessage('')
       
       setTimeout(() => setIsSent(false), 5000)
-    }, 1500)
+    } catch (err) {
+      console.error('Failed to send message:', err)
+      alert('Failed to transmit pulse. Please check your connection.')
+    } finally {
+      setIsSending(false)
+    }
   }
 
   return (
@@ -74,6 +86,17 @@ export default function Contact() {
           >
              <h2 className="text-xl font-black text-white mb-6 uppercase tracking-tight">Direct Message.</h2>
              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Your Email</label>
+                  <input 
+                    type="email"
+                    className="prism-input w-full" 
+                    placeholder="satoshi@bitcoin.org"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Subject</label>
                   <input 
