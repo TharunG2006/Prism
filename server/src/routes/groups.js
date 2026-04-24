@@ -4,6 +4,7 @@ const auth = require('../middleware/auth');
 const Conversation = require('../models/Conversation');
 const User = require('../models/User');
 const GroupInvite = require('../models/GroupInvite');
+const Message = require('../models/Message');
 
 // @route   POST api/groups
 // @desc    Create a new group
