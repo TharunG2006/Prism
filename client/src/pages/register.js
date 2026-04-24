@@ -205,6 +205,12 @@ export default function Register() {
           <div className="w-1 h-1 bg-slate-800 rounded-full"></div>
           <div className="flex items-center gap-1.5"><Sparkles size={12} /> AES-256-GCM</div>
         </div>
+
+        <div className="mt-8 flex justify-center gap-6">
+          <Link href="/privacy" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Privacy</Link>
+          <Link href="/terms" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Terms</Link>
+          <Link href="/contact" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Contact</Link>
+        </div>
       </motion.div>
     </div>
   )
