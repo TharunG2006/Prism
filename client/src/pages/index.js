@@ -108,11 +108,12 @@ export default function Home() {
       <footer className="relative z-10 border-t border-white/5 py-12 px-8">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-slate-500 text-sm">
           <p>© 2026 PRISM. All rights reserved.</p>
-          <div className="flex gap-8 mt-4 md:mt-0">
-            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-white transition-colors">Security Protocol</Link>
-            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
-          </div>
+          <div className="mt-8 flex flex-wrap justify-center gap-6">
+          <Link href="/privacy" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Privacy</Link>
+          <Link href="/terms" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Terms</Link>
+          <Link href="/roadmap" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Roadmap</Link>
+          <Link href="/contact" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Contact</Link>
+        </div>
         </div>
       </footer>
     </div>

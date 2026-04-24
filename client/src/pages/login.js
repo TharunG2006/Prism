@@ -109,9 +109,10 @@ export default function Login() {
           </div>
         </div>
 
-        <div className="mt-8 flex justify-center gap-6">
+        <div className="mt-8 flex flex-wrap justify-center gap-6">
           <Link href="/privacy" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Privacy</Link>
           <Link href="/terms" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Terms</Link>
+          <Link href="/roadmap" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Roadmap</Link>
           <Link href="/contact" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Contact</Link>
         </div>
       </motion.div>

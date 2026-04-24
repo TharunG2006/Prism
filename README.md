@@ -2,48 +2,40 @@
 
 Prism is a state-of-the-art, end-to-end encrypted (E2EE) messaging platform built with Next.js, Express, and Socket.IO.
 
-## Features
+## 🛡️ Security Protocol
 - **True End-to-End Encryption**: Messages are encrypted/decrypted only on the client side using the Web Crypto API.
-- **Multicast Group Chat**: Secure group conversations with individual session key management.
-- **File Sharing**: Encrypted file uploads and downloads.
-- **Security Vault**: Secondary PIN protection for sensitive chat metadata.
-- **Real-time Status**: Live online/offline tracking via Socket.IO.
+- **Protocol**: 
+  - RSA-2048 for handshakes.
+  - AES-256-GCM for message content.
+  - PBKDF2 for key derivation.
 
-## Tech Stack
+## 🚀 Roadmap & Upcoming Changes
+
+### Phase 1: Communication Expansion (Q2 2026)
+- [ ] **E2EE Voice Calls**: Encrypted peer-to-peer audio calls.
+- [ ] **E2EE Video Calls**: High-definition secure video transmission.
+- [ ] **Message Reactions**: Quick emoji responses to messages.
+
+### Phase 2: Privacy Enhancements (Q3 2026)
+- [ ] **Self-Destructing Messages**: Set timers for message deletion.
+- [ ] **One-Time View Media**: Photos and videos that disappear after viewing.
+- [ ] **Stealth Mode**: Hide "Online" status and "Read Receipts" individually.
+
+### Phase 3: Platform Growth (Q4 2026)
+- [ ] **Native Mobile Apps**: Dedicated iOS and Android applications.
+- [ ] **Desktop Client**: Optimized Windows/macOS experience.
+- [ ] **Advanced Vault 2.0**: Biometric lock for sensitive chat metadata.
+
+## 🛠 Tech Stack
 - **Frontend**: Next.js (Tailwind CSS, Framer Motion, Lucide React)
 - **Backend**: Node.js (Express, Socket.IO, Mongoose)
 - **Database**: MongoDB Atlas
 - **Storage**: Cloudinary (Encrypted Blobs)
-- **Email**: Brevo/Gmail for verification codes
 
-## Getting Started
+## ⚖️ License
+**Proprietary - All Rights Reserved.**
 
-### 1. Clone the repository
-```bash
-git clone <your-repo-url>
-cd Prism
-```
+This software and all associated files are the exclusive property of Prism. Unauthorized copying, modification, or distribution of this software, via any medium, is strictly prohibited.
 
-### 2. Install Dependencies
-```bash
-# Frontend
-cd client && npm install
-
-# Backend
-cd ../server && npm install
-```
-
-### 3. Environment Variables
-Create `.env` files based on the `.example` files provided in both `client` and `server` directories.
-
-### 4. Run the application
-```bash
-# Start Backend
-cd server && npm run dev
-
-# Start Frontend
-cd client && npm run dev
-```
-
-## License
-MIT
+---
+© 2026 Prism. All Rights Reserved.
