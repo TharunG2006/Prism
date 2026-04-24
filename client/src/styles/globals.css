@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== DARK THEME (Default) ===== */
+:root,
+[data-theme="dark"] {
+  --bg-primary: #020617;
+  --bg-secondary: #0f172a;
+  --bg-card: #1e293b;
+  --bg-hover: rgba(255,255,255,0.05);
+  --bg-hover-strong: rgba(255,255,255,0.1);
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --border-color: rgba(255,255,255,0.05);
+  --border-strong: rgba(255,255,255,0.1);
+  --input-bg: rgba(15,23,42,0.5);
+  --accent: #6366f1;
+  --accent-hover: #818cf8;
+}
+
+/* ===== LIGHT THEME ===== */
+[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-hover: rgba(0,0,0,0.03);
+  --bg-hover-strong: rgba(0,0,0,0.06);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border-color: rgba(0,0,0,0.08);
+  --border-strong: rgba(0,0,0,0.12);
+  --input-bg: rgba(241,245,249,0.8);
+  --accent: #4f46e5;
+  --accent-hover: #6366f1;
+}
+
+body {
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Scrollbar */
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 4px; }
+
+@layer components {
+  .prism-glass {
+    background: var(--bg-hover);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-strong);
+    border-radius: 1rem;
+  }
+
+  .prism-button {
+    @apply font-semibold py-3 px-8 rounded-xl transition-all duration-300 shadow-lg shadow-indigo-500/25 active:scale-95;
+    background: var(--accent);
+    color: #ffffff;
+  }
+  .prism-button:hover { background: var(--accent-hover); }
+
+  .prism-input {
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  .prism-input::placeholder { color: var(--text-muted); }
+  .prism-input:focus { border-color: var(--accent); }
+
+  /* Theme-aware utility classes */
+  .theme-bg { background: var(--bg-primary); }
+  .theme-bg-secondary { background: var(--bg-secondary); }
+  .theme-bg-card { background: var(--bg-card); }
+  .theme-bg-hover { background: var(--bg-hover); }
+  .theme-text { color: var(--text-primary); }
+  .theme-text-secondary { color: var(--text-secondary); }
+  .theme-text-muted { color: var(--text-muted); }
+  .theme-border { border-color: var(--border-color); }
+  .theme-border-strong { border-color: var(--border-strong); }
+}
