@@ -210,6 +210,7 @@ export default function Register() {
           <Link href="/privacy" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Privacy Policy</Link>
           <Link href="/terms" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Security Protocol</Link>
           <Link href="/roadmap" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Roadmap</Link>
+          <Link href="/changelog" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Changelog</Link>
           <Link href="/contact" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Contact</Link>
         </div>
       </motion.div>

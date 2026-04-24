@@ -26,9 +26,9 @@ export default function Home() {
           <span className="text-2xl font-black tracking-tighter">PRISM</span>
         </div>
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
-          <a href="#" className="hover:text-white transition-colors">Features</a>
-          <a href="#" className="hover:text-white transition-colors">Security</a>
-          <a href="#" className="hover:text-white transition-colors">Enterprise</a>
+          <a href="#features" className="hover:text-white transition-colors">Features</a>
+          <a href="#security" className="hover:text-white transition-colors">Security</a>
+          <a href="#enterprise" className="hover:text-white transition-colors">Enterprise</a>
         </div>
         <Link href="/login" className="bg-white/5 hover:bg-white/10 border border-white/10 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all">
           Sign In
@@ -76,13 +76,14 @@ export default function Home() {
           <Link href="/register" className="prism-button flex items-center justify-center gap-2 text-lg px-10">
             Start Secure Chat <ArrowRight size={20} />
           </Link>
-          <Link href="#" className="bg-white/5 hover:bg-white/10 border border-white/10 px-10 py-4 rounded-xl font-semibold transition-all">
+          <Link href="#security" className="bg-white/5 hover:bg-white/10 border border-white/10 px-10 py-4 rounded-xl font-semibold transition-all">
             View Protocol
           </Link>
         </motion.div>
 
         {/* Feature Grid Preview */}
         <motion.div
+          id="features"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
@@ -102,18 +103,60 @@ export default function Home() {
             </div>
           ))}
         </motion.div>
+
+        {/* Security Section */}
+        <motion.div
+           id="security"
+           initial={{ opacity: 0 }}
+           whileInView={{ opacity: 1 }}
+           className="mt-40 text-center"
+        >
+           <h2 className="text-4xl font-black mb-12">Security Architecture.</h2>
+           <div className="prism-glass p-12 max-w-4xl mx-auto">
+              <div className="grid md:grid-cols-2 gap-12 text-left">
+                 <div className="space-y-4">
+                    <h4 className="text-indigo-400 font-bold uppercase tracking-widest text-xs">Asymmetric Handshake</h4>
+                    <p className="text-slate-300 text-sm leading-relaxed">Prism utilizes RSA-2048 for identity verification and secure session key exchange. Your private key never leaves your device.</p>
+                 </div>
+                 <div className="space-y-4">
+                    <h4 className="text-indigo-400 font-bold uppercase tracking-widest text-xs">Symmetric Encryption</h4>
+                    <p className="text-slate-300 text-sm leading-relaxed">Message payloads are encrypted with AES-256-GCM, providing high-performance authenticated encryption for all data streams.</p>
+                 </div>
+              </div>
+           </div>
+        </motion.div>
+
+        {/* Enterprise Section */}
+        <motion.div
+           id="enterprise"
+           initial={{ opacity: 0 }}
+           whileInView={{ opacity: 1 }}
+           className="mt-40 text-left w-full max-w-5xl mx-auto"
+        >
+           <div className="grid md:grid-cols-2 gap-16 items-center">
+              <div>
+                 <h2 className="text-5xl font-black mb-6 leading-tight">Built for <br /><span className="text-indigo-400">Scale & Trust.</span></h2>
+                 <p className="text-slate-400 mb-8 leading-relaxed">Prism Enterprise offers dedicated nodes, custom compliance logs, and centralized security management for organizations that cannot compromise.</p>
+                 <Link href="/contact" className="text-indigo-400 font-black flex items-center gap-2 hover:translate-x-2 transition-transform">
+                    Inquire about Enterprise <ArrowRight size={16} />
+                 </Link>
+              </div>
+              <div className="bg-gradient-to-br from-indigo-600/20 to-blue-600/20 aspect-square rounded-[2rem] border border-white/5 flex items-center justify-center">
+                 <Shield size={120} className="text-indigo-500 opacity-50" />
+              </div>
+           </div>
+        </motion.div>
       </main>
 
       {/* Footer */}
       <footer className="relative z-10 border-t border-white/5 py-12 px-8">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-slate-500 text-sm">
           <p>© 2026 PRISM. All rights reserved.</p>
-          <div className="mt-8 flex flex-wrap justify-center gap-6">
-          <Link href="/privacy" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Privacy</Link>
-          <Link href="/terms" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Terms</Link>
-          <Link href="/roadmap" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Roadmap</Link>
-          <Link href="/contact" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 hover:text-indigo-400 transition-colors">Contact</Link>
-        </div>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Security Protocol</Link>
+            <Link href="/roadmap" className="hover:text-white transition-colors">Roadmap</Link>
+            <Link href="/changelog" className="hover:text-white transition-colors">Changelog</Link>
+            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
         </div>
       </footer>
     </div>
